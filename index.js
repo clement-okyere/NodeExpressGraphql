@@ -1,10 +1,19 @@
 import express from 'express'
 import { graphqlHTTP } from 'express-graphql'
 import schema from './schema'
-import root from './resolvers'
+const mongoose = require('mongoose')
+
 
 const app = express();
 
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/grpahqldb')
+    .then(() => console.log('connected to mongodb successfully'))
+    .catch((err) => {
+        console.log('error', err)
+    })
+
+    
 app.get('/', (req, res) => {
 
     return res.json({
@@ -17,7 +26,6 @@ app.use(
   "/graphql",
   graphqlHTTP({
     schema: schema,
-    rootValue: root,
     graphiql: true,
   })
 );

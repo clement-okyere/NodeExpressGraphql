@@ -1,6 +1,7 @@
-import { buildSchema } from 'graphql'
+import { makeExecutableSchema } from 'graphql-tools'
+import { resolvers } from './resolvers'
 
-const schema = buildSchema(`
+const typeDefs = `
 
 type HackerNewsItem {
     id: String
@@ -17,6 +18,15 @@ type User {
     firstName: String!
     lastName: String!
     email: String!
+    age: Int!
+    gender: Gender
+    items: [HackerNewsItem]
+}
+
+enum Gender {
+    MALE
+    FEMALE
+    OTHER
 }
 
 type Query {
@@ -25,16 +35,30 @@ type Query {
     users: [User]
 }
 
+input HackerNewsItemInput {
+    id: String
+    text: String
+    timeISO: String
+    time: Int
+    title: String
+    deleted: Boolean
+}
+
 input UserInput {
      id: ID
     firstName: String!
     lastName: String!
     email: String!
+    age: Int!
+    gender: Gender
+    items: [HackerNewsItemInput]
 }
 
 type Mutation {
     createUser(input: UserInput) : User
 }
-`);
+`;
 
-export default schema;
+const schema = makeExecutableSchema({typeDefs, resolvers})
+
+export default schema ;
