@@ -30,7 +30,7 @@ enum Gender {
 }
 
 type Query {
-    item: HackerNewsItem
+    getItem(id: ID!): HackerNewsItem
     getUser(id: ID) : User
     users: [User]
 }
@@ -51,11 +51,12 @@ input UserInput {
     email: String!
     age: Int!
     gender: Gender
-    items: [HackerNewsItemInput]
+    items: [ID!]
 }
 
 type Mutation {
     createUser(input: UserInput) : User
+    createItem(input: HackerNewsItemInput): HackerNewsItem
 }
 `;
 
