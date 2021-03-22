@@ -12,12 +12,10 @@ const resolvers = {
       deleted: false,
     };
   },
-  user: () => {
-    return {
-      firstName: "Jane",
-      lastName: "Doe",
-      email: "jane@gmail.com",
-    };
+    getUser: ({ id }) => {
+      let user = users.find(u => u.id === id);
+      console.log(id, user)
+      return user;
   },
   users: () => {
     return users;
