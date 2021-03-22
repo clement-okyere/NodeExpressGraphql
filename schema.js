@@ -29,10 +29,23 @@ enum Gender {
     OTHER
 }
 
+type Post {
+    id: ID,
+    title: String,
+    text: String
+}
+
+input PostInput {
+     title: String,
+    text: String
+}
+
 type Query {
     getItem(id: ID!): HackerNewsItem
     getUser(id: ID) : User
     getUsers: [User]
+    getPosts: [Post]
+    getPost(id: ID): Post
 }
 
 input HackerNewsItemInput {
@@ -59,6 +72,7 @@ type Mutation {
     updateUser(input: UserInput) : User
     deleteUser(id: ID!) : User
     createItem(input: HackerNewsItemInput): HackerNewsItem
+    createPost(input: PostInput) : Post
 }
 `;
 
