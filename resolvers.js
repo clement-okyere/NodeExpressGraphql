@@ -6,9 +6,9 @@ let users = [];
 let user = {};
 export const resolvers = {
   Query: {
-        getItem: async (_, { id }) => {
-          const item = await Item.findOne({_id: id})
-          return item;
+    getItem: async (_, { id }) => {
+      const item = await Item.findOne({ _id: id });
+      return item;
     },
     getUser: (_, { id }, context, info) => {
       let user = users.find((u) => u.id === id);
@@ -20,21 +20,27 @@ export const resolvers = {
     },
   },
   Mutation: {
-      createUser: async (_, { input }) => {
-       const user = new User({
-          ...input
-       })
-          console.log('user', user)
-          await user.save()
-          return await User.findOne({_id: user.id}).populate('items')
-      },
-      createItem: async (_, { input }) => {
-          const hackerNews = new Item({
-             ...input
-         })
-          await hackerNews.save();
-         return hackerNews;
-      }
-  }
+    createUser: async (_, { input }) => {
+      const user = new User({
+        ...input,
+      });
+      console.log("user", user);
+      await user.save();
+      return await User.findOne({ _id: user.id }).populate("items");
+    },
+    updateUser: async (_, { input }) => {
+        const result = await User.findOneAndUpdate({
+         _id: input.id
+        }, input, { new: true })
+        return result;
+    },
+    createItem: async (_, { input }) => {
+      const hackerNews = new Item({
+        ...input,
+      });
+      await hackerNews.save();
+      return hackerNews;
+    },
+  },
 };
 
