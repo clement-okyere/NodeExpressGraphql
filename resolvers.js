@@ -10,13 +10,12 @@ export const resolvers = {
       const item = await Item.findOne({ _id: id });
       return item;
     },
-    getUser: (_, { id }, context, info) => {
-      let user = users.find((u) => u.id === id);
-      console.log(id, user);
+    getUser:async (_, { id }) => {
+        let user = await User.findById(id).populate("items");
       return user;
     },
-    users: () => {
-      return users;
+    getUsers:async () => {
+      return await User.find().populate("items")
     },
   },
   Mutation: {
@@ -33,6 +32,9 @@ export const resolvers = {
          _id: input.id
         }, input, { new: true })
         return result;
+      },
+      deleteUser: async (_, { id }) => {
+        return  await User.findOneAndDelete(id);
     },
     createItem: async (_, { input }) => {
       const hackerNews = new Item({
